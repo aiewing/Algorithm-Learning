@@ -1,16 +1,15 @@
-# LeetCode
-LeetCode solutions
+# C++ Template
 
 ## Project Structure
 For each project:
 
-`src` - `Solution.cpp & Solution.h` to solve the problem
+`src` - `Solution.cpp & Solution.h` -> solve the problem
 
-`main` - `main.cpp` to debug and run
+`main` - `main.cpp` -> debug and run
 
-`test` - `test.cpp` to run unit test with GoogleTest framework
+`test` - `test.cpp` -> run unit test with GoogleTest framework
 
-`screenshot` - leetcode judge results
+`screenshot` - judge results screenshots
 
 ## Project Generator
 We use `CLion` to solve the LeetCode problem.
