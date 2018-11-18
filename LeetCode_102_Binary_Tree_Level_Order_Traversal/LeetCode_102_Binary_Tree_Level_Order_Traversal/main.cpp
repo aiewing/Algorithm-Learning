@@ -36,7 +36,9 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-
+// 解法一：前序遍历
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)
 class Solution {
 public:
     vector<vector<int>> res;
@@ -63,6 +65,55 @@ public:
     }
 };
 
+// 解法二：非递归遍历
+// 根据的上一层的数据，可以得到下一层的数据
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)
+class Solution2 {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        // 先新建一个数组
+        vector<vector<int>> res;
+        vector<vector<TreeNode *>> treeArr;
+        if (root != NULL) {
+            vector<int> first;
+            first.push_back(root->val);
+            res.push_back(first);
+            
+            vector<TreeNode *> firstTree;
+            firstTree.push_back(root);
+            treeArr.push_back(firstTree);
+            
+            int i = 0;
+            while (treeArr.size() > i) {
+                vector<TreeNode *> temp = treeArr[i];
+                
+                vector<int> last;
+                vector<TreeNode *> lastTree;
+                
+                for (int j = 0; j < temp.size(); j++) {
+                    TreeNode *tempTree = temp[j];
+                    if (tempTree->left != NULL) {
+                        last.push_back(tempTree->left->val);
+                        lastTree.push_back(tempTree->left);
+                    }
+                    if (tempTree->right != NULL) {
+                        last.push_back(tempTree->right->val);
+                        lastTree.push_back(tempTree->right);
+                    }
+                }
+                if (last.size() > 0) {
+                    res.push_back(last);
+                    treeArr.push_back(lastTree);
+                }
+                i++;
+            }
+        }
+        return res;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     TreeNode *node1 = new TreeNode(3);
     TreeNode *node2 = new TreeNode(9);
@@ -77,7 +128,7 @@ int main(int argc, const char * argv[]) {
     node3->right = node5;
 
     
-    Solution *so = new Solution();
+    Solution2 *so = new Solution2();
     vector<vector<int>> res = so->levelOrder(node1);
     
     return 0;
