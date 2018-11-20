@@ -81,9 +81,30 @@ vector<int> sorting3(vector<int> arr) {
     return arr;
 }
 
+/// 希尔排序
+vector<int> sorting4(vector<int> arr) {
+    int gap = arr.size() / 2;
+    while(gap >= 1) {
+        // 把距离为gap的元素编为一组 扫描所有组
+        for (int i = gap; i < arr.size(); i++) {
+            int j = 0;
+            int temp = arr[i];
+            
+            // 对距离为gap的元素组进行排序
+            for (j = i - gap; j >= 0 && temp < arr[j]; j = j - gap) {
+                arr[j + gap] = arr[j];
+            }
+            arr[j + gap] = temp;
+        }
+        // 减小步长
+        gap /= 2;
+    }
+    return arr;
+}
+
 int main(int argc, const char * argv[]) {
     vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5};
-    vector<int> res = sorting3(arr);
+    vector<int> res = sorting4(arr);
     for_each(res.begin(), res.end(), [](int a) {
         cout << a << " ";
     });
