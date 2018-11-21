@@ -102,9 +102,128 @@ vector<int> sorting4(vector<int> arr) {
     return arr;
 }
 
+/// 快速排序
+void sorting5(vector<int> &arr, int low, int high) {
+    if (low >= high) {
+        return;
+    }
+    int left = low;
+    int right = high;
+    int key = arr[left];
+    while (left < right) {
+        while (left < right && arr[right] >= key) {
+            right--;
+        }
+        arr[left] = arr[right];
+        while (left < right && arr[left] <= key) {
+            left++;
+        }
+        arr[right] = arr[left];
+    }
+    arr[left] = key;
+    sorting5(arr, low, left - 1);
+    sorting5(arr, left + 1, high);
+}
+
+/// 归并排序 非递归
+vector<int> sorting6(vector<int> arr) {
+    // 现在使用非递归的方法
+    // 先设定步长 从2开始 每次排序结束之后 *2
+    long count = arr.size();
+    int step = 2;
+    vector<vector<int>> res;
+    for (int i = 0; i < count; i += step) {
+        vector<int> subArr;
+        if (i > count - 2) {
+            subArr.push_back(arr[i]);
+        } else {
+            subArr.push_back(min(arr[i], arr[i + 1]));
+            subArr.push_back(max(arr[i], arr[i + 1]));
+        }
+        res.push_back(subArr);
+    }
+    
+    // 接下来两个一组 两个一组的合并
+    while (res.size() > 1) {
+        vector<vector<int>> tempRes;
+        count = res.size();
+        for (int i = 0; i < res.size(); i += step) {
+            vector<int> subArr;
+            if (i > count - 2) {
+                tempRes.push_back(res[i]);
+            } else {
+                // 两个数组归并为一个数组
+                int one = 0;
+                int two = 0;
+                vector<int> oneArr = res[i];
+                vector<int> twoArr = res[i + 1];
+                while (one < oneArr.size() && two < twoArr.size()) {
+                    if (oneArr[one] < twoArr[two]) {
+                        subArr.push_back(oneArr[one++]);
+                    } else {
+                        subArr.push_back(twoArr[two++]);
+                    }
+                }
+                
+                while (one < oneArr.size()) {
+                    subArr.push_back(oneArr[one++]);
+                }
+                
+                while (two < twoArr.size()) {
+                    subArr.push_back(twoArr[two++]);
+                }
+                tempRes.push_back(subArr);
+            }
+            
+        }
+        res = tempRes;
+    }
+    return res.front();
+}
+
+vector<int> merge7(vector<int> left, vector<int> right) {
+    vector<int> res;
+    // 两个数组归并为一个数组
+    int one = 0;
+    int two = 0;
+    while (one < left.size() && two < right.size()) {
+        if (left[one] < right[two]) {
+            res.push_back(left[one++]);
+        } else {
+            res.push_back(right[two++]);
+        }
+    }
+    
+    while (one < left.size()) {
+        res.push_back(left[one++]);
+    }
+    
+    while (two < right.size()) {
+        res.push_back(right[two++]);
+    }
+    return res;
+}
+
+/// 归并排序 递归
+vector<int> sorting7(vector<int> arr) {
+    if (arr.size() < 2) {
+        return arr;
+    }
+    // 先将数组分为两个
+    int mid = arr.size() / 2;
+    vector<int> left, right;
+    copy(arr.begin(), arr.begin() + mid, back_inserter(left));
+    copy(arr.begin() + mid, arr.end(), back_inserter(right));
+    
+    return merge7(sorting7(left), sorting7(right));
+}
+
+
+
 int main(int argc, const char * argv[]) {
     vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5};
-    vector<int> res = sorting4(arr);
+    vector<int> res = sorting7(arr);
+//    sorting5(arr, 0, arr.size() - 1);
     for_each(res.begin(), res.end(), [](int a) {
         cout << a << " ";
     });
