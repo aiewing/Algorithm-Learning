@@ -18,6 +18,8 @@ using namespace std;
 
 
 /// 冒泡排序
+/// 时间复杂度：O(n^2)
+/// 空间复杂度：O(1)
 vector<int> sorting1(vector<int> arr) {
     // 记录是否交换
     bool flag = true;
@@ -37,6 +39,8 @@ vector<int> sorting1(vector<int> arr) {
 }
 
 /// 选择排序
+/// 时间复杂度：O(n^2)
+/// 空间复杂度：O(1)
 vector<int> sorting2(vector<int> arr) {
     int minIndex;
     for (int i = 0; i < arr.size() - 1; i++) {
@@ -55,6 +59,8 @@ vector<int> sorting2(vector<int> arr) {
 }
 
 /// 插入排序
+/// 时间复杂度：O(n^2)
+/// 空间复杂度：O(1)
 vector<int> sorting3(vector<int> arr) {
     // 已经排好序的位置
     int sortedIndex = 0;
@@ -82,6 +88,8 @@ vector<int> sorting3(vector<int> arr) {
 }
 
 /// 希尔排序
+/// 时间复杂度：O(n^1.3)
+/// 空间复杂度：O(1)
 vector<int> sorting4(vector<int> arr) {
     int gap = arr.size() / 2;
     while(gap >= 1) {
@@ -103,6 +111,8 @@ vector<int> sorting4(vector<int> arr) {
 }
 
 /// 快速排序
+/// 时间复杂度：O(n*log2n)
+/// 空间复杂度：O(log2n)
 void sorting5(vector<int> &arr, int low, int high) {
     if (low >= high) {
         return;
@@ -126,6 +136,8 @@ void sorting5(vector<int> &arr, int low, int high) {
 }
 
 /// 归并排序 非递归
+/// 时间复杂度：O(n*log2n)
+/// 空间复杂度：O(n)
 vector<int> sorting6(vector<int> arr) {
     // 现在使用非递归的方法
     // 先设定步长 从2开始 每次排序结束之后 *2
@@ -181,6 +193,7 @@ vector<int> sorting6(vector<int> arr) {
     return res.front();
 }
 
+
 vector<int> merge7(vector<int> left, vector<int> right) {
     vector<int> res;
     // 两个数组归并为一个数组
@@ -205,6 +218,8 @@ vector<int> merge7(vector<int> left, vector<int> right) {
 }
 
 /// 归并排序 递归
+/// 时间复杂度：O(n*log2n)
+/// 空间复杂度：O(n)
 vector<int> sorting7(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
