@@ -34,17 +34,27 @@ using namespace std;
 class Solution {
 public:
     void wiggleSort(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        for_each(nums.begin(), nums.end(), [](int a) {
-            cout << a << endl;
-        });
+        vector<int> temp = nums;
+        sort(temp.begin(), temp.end());
+        int small = (nums.size() - 1) / 2;
+        int large = nums.size() - 1;
+        for (int i = 0; i < nums.size(); i++) {
+            if (i % 2 ==0) {
+                nums[i] = temp[small--];
+            } else {
+                nums[i] = temp[large--];
+            }
+        }
     }
 };
 
 int main(int argc, const char * argv[]) {
     
     Solution *so = new Solution();
-    vector<int> aa = {1, 5, 1, 1, 6, 4};
+    vector<int> aa = {1, 5, 2, 3, 6, 4};
     so->wiggleSort(aa);
+            for_each(aa.begin(), aa.end(), [](int a) {
+                cout << a << endl;
+            });
     return 0;
 }
