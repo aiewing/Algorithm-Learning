@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
@@ -233,11 +234,140 @@ vector<int> sorting7(vector<int> arr) {
     return merge7(sorting7(left), sorting7(right));
 }
 
+/// 计数排序
+/// 时间复杂度：
+/// 空间复杂度：
+vector<int> sorting8(vector<int> arr) {
+    if (arr.size() < 2) {
+        return arr;
+    }
+    // 先找出排序数组中的最大和最小的元素
+    int maxInt = arr.front();
+    int minInt = arr.front();
+    for (int i = 0; i < arr.size(); i++) {
+        maxInt = max(arr[i], maxInt);
+        minInt = min(arr[i], minInt);
+    }
+    
+    // 创建一个数组可以承载最小到最大值中的所有的元素。
+    vector<int> bucket(maxInt - minInt + 1);
+    for (int i = 0; i < arr.size(); i++) {
+        bucket[arr[i] - minInt]++;
+    }
+    
+    int index = 0;
+    for (int i = 0; i < bucket.size(); i++) {
+        while (bucket[i] > 0) {
+            arr[index++] = i;
+            bucket[i]--;
+        }
+    }
+    return arr;
+}
 
+/// 桶排序
+/// 时间复杂度：
+/// 空间复杂度：
+vector<int> sorting9(vector<int> arr) {
+    if (arr.size() < 2) {
+        return arr;
+    }
+    // 先找出排序数组中的最大和最小的元素
+    int maxInt = arr.front();
+    int minInt = arr.front();
+    for (int i = 0; i < arr.size(); i++) {
+        maxInt = max(arr[i], maxInt);
+        minInt = min(arr[i], minInt);
+    }
+    
+    // 初始化桶
+    // 桶大小
+    int bucketSize = 5;
+    // 桶个数 向上取整
+    int bucketCount = ceil((maxInt - minInt + 1) / 5.0);
+    vector<vector<int>> bucket(bucketCount);
+    
+    for (int i = 0; i < arr.size(); i++) {
+        // 判断放到哪一个桶中
+        int index = (arr[i] - minInt) / bucketSize;
+        bucket[index].push_back(arr[i]);
+    }
+    
+    // 分别对每个桶中的数据快速排序
+    arr.resize(0);
+    for (int i = 0; i < bucket.size(); i++) {
+        if (bucket[i].size() > 0) {
+            sorting5(bucket[i], 0, bucket[i].size() - 1);
+            arr.insert(arr.end(), bucket[i].begin(), bucket[i].end());
+        }
+    }
+
+    return arr;
+}
+
+// 堆调整
+void adjustHeap(vector<int> &arr, int i) {
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    
+}
+
+// 创建大顶堆
+void buildHeap(vector<int> &arr) {
+    // 现在是一个无需的普通的堆
+    // 我们需要从倒数第二层开始遍历
+    for (int i = arr.size() / 2; i >= 0; i--) {
+        adjustHeap(arr, i);
+    }
+}
+
+
+
+
+/// 堆排序
+/// 时间复杂度：
+/// 空间复杂度：
+vector<int> sorting10(vector<int> arr) {
+    if (arr.size() < 2) {
+        return arr;
+    }
+    // 先找出排序数组中的最大和最小的元素
+    int maxInt = arr.front();
+    int minInt = arr.front();
+    for (int i = 0; i < arr.size(); i++) {
+        maxInt = max(arr[i], maxInt);
+        minInt = min(arr[i], minInt);
+    }
+    
+    // 初始化桶
+    // 桶大小
+    int bucketSize = 5;
+    // 桶个数 向上取整
+    int bucketCount = ceil((maxInt - minInt + 1) / 5.0);
+    vector<vector<int>> bucket(bucketCount);
+    
+    for (int i = 0; i < arr.size(); i++) {
+        // 判断放到哪一个桶中
+        int index = (arr[i] - minInt) / bucketSize;
+        bucket[index].push_back(arr[i]);
+    }
+    
+    // 分别对每个桶中的数据快速排序
+    arr.resize(0);
+    for (int i = 0; i < bucket.size(); i++) {
+        if (bucket[i].size() > 0) {
+            sorting5(bucket[i], 0, bucket[i].size() - 1);
+            arr.insert(arr.end(), bucket[i].begin(), bucket[i].end());
+        }
+    }
+    
+    return arr;
+}
 
 int main(int argc, const char * argv[]) {
     vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5};
-    vector<int> res = sorting7(arr);
+    vector<int> res = sorting9(arr);
 //    sorting5(arr, 0, arr.size() - 1);
     for_each(res.begin(), res.end(), [](int a) {
         cout << a << " ";
