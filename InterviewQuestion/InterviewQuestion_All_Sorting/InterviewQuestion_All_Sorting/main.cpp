@@ -21,18 +21,15 @@ using namespace std;
 /// 冒泡排序
 /// 时间复杂度：O(n^2)
 /// 空间复杂度：O(1)
-vector<int> sorting1(vector<int> arr) {
-    // 记录是否交换
-    bool flag = true;
-    while (flag) {
-        flag = false;
-        for (int i = 1; i < arr.size(); i++) {
-            if (arr[i] < arr[i - 1]) {
+vector<int> bubbleSort(vector<int> arr) {
+    int count = arr.size();
+    for (int i = 1; i < count; i++) {
+        for (int j = 1; j < count - i; j++) {
+            if (arr[j] < arr[j - 1]) {
                 // 交换
-                int temp = arr[i];
-                arr[i] = arr[i - 1];
-                arr[i - 1] = temp;
-                flag = true;
+                int temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
             }
         }
     }
@@ -411,7 +408,7 @@ vector<int> sorting11(vector<int> arr) {
 
 int main(int argc, const char * argv[]) {
     vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5, 11, 111};
-    vector<int> res = sorting11(arr);
+    vector<int> res = bubbleSort(arr);
 //    sorting5(arr, 0, arr.size() - 1);
     for_each(res.begin(), res.end(), [](int a) {
         cout << a << " ";
