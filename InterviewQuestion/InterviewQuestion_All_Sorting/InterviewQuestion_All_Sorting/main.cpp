@@ -21,7 +21,7 @@ using namespace std;
 /// 冒泡排序
 /// 时间复杂度：O(n^2)
 /// 空间复杂度：O(1)
-vector<int> bubbleSort(vector<int> arr) {
+vector<int> bubbleSort1(vector<int> arr) {
     int count = arr.size();
     for (int i = 1; i < count; i++) {
         for (int j = 1; j < count - i; j++) {
@@ -36,10 +36,28 @@ vector<int> bubbleSort(vector<int> arr) {
     return arr;
 }
 
+vector<int> bubbleSort2(vector<int> arr) {
+    // 记录是否交换
+    bool flag = true;
+    while (flag) {
+        flag = false;
+        for (int i = 1; i < arr.size(); i++) {
+            if (arr[i] < arr[i - 1]) {
+                // 交换
+                int temp = arr[i];
+                arr[i] = arr[i - 1];
+                arr[i - 1] = temp;
+                flag = true;
+            }
+        }
+    }
+    return arr;
+}
+
 /// 选择排序
 /// 时间复杂度：O(n^2)
 /// 空间复杂度：O(1)
-vector<int> sorting2(vector<int> arr) {
+vector<int> selectionSort(vector<int> arr) {
     int minIndex;
     for (int i = 0; i < arr.size() - 1; i++) {
         minIndex = i;
@@ -47,26 +65,26 @@ vector<int> sorting2(vector<int> arr) {
             // 先找出一个最小的数
             minIndex = arr[j] < arr[minIndex] ? j : minIndex;
         }
-        // 和i - 1位交换
+        // 和第i位交换
         int temp = arr[minIndex];
         arr[minIndex] = arr[i];
         arr[i] = temp;
     }
-    
     return arr;
 }
 
 /// 插入排序
 /// 时间复杂度：O(n^2)
 /// 空间复杂度：O(1)
-vector<int> sorting3(vector<int> arr) {
+vector<int> insertionSort(vector<int> arr) {
     // 已经排好序的位置
     int sortedIndex = 0;
     int current;
+    // 遍历未排序的数组
     for (int i = 1; i < arr.size(); i++) {
         current = arr[i];
+        // 把取出来的数据插入到已排序的数组中
         for (int j = sortedIndex; j >= 0; j--) {
-            
             if (current > arr[j]) {
                 arr[j + 1] = current;
                 sortedIndex++;
@@ -81,29 +99,28 @@ vector<int> sorting3(vector<int> arr) {
             }
         }
     }
-    
     return arr;
 }
 
 /// 希尔排序
 /// 时间复杂度：O(n^1.3)
 /// 空间复杂度：O(1)
-vector<int> sorting4(vector<int> arr) {
-    int gap = arr.size() / 2;
-    while(gap >= 1) {
-        // 把距离为gap的元素编为一组 扫描所有组
-        for (int i = gap; i < arr.size(); i++) {
+vector<int> shellSort(vector<int> arr) {
+    int step = arr.size() / 2;
+    while(step >= 1) {
+        // 把距离为step的元素编为一组 扫描所有组
+        for (int i = step; i < arr.size(); i++) {
             int j = 0;
             int temp = arr[i];
             
             // 对距离为gap的元素组进行排序
-            for (j = i - gap; j >= 0 && temp < arr[j]; j = j - gap) {
-                arr[j + gap] = arr[j];
+            for (j = i - step; j >= 0 && temp < arr[j]; j = j - step) {
+                arr[j + step] = arr[j];
             }
-            arr[j + gap] = temp;
+            arr[j + step] = temp;
         }
         // 减小步长
-        gap /= 2;
+        step /= 2;
     }
     return arr;
 }
@@ -111,12 +128,15 @@ vector<int> sorting4(vector<int> arr) {
 /// 快速排序
 /// 时间复杂度：O(n*log2n)
 /// 空间复杂度：O(log2n)
-void sorting5(vector<int> &arr, int low, int high) {
+
+void quickSorting(vector<int> &arr, int low, int high) {
     if (low >= high) {
         return;
     }
+    // 先保存左右点
     int left = low;
     int right = high;
+    // 默认关键值为数组的最左边的点
     int key = arr[left];
     while (left < right) {
         while (left < right && arr[right] >= key) {
@@ -129,14 +149,19 @@ void sorting5(vector<int> &arr, int low, int high) {
         arr[right] = arr[left];
     }
     arr[left] = key;
-    sorting5(arr, low, left - 1);
-    sorting5(arr, left + 1, high);
+    quickSorting(arr, low, left - 1);
+    quickSorting(arr, left + 1, high);
+}
+
+vector<int> quickSort(vector<int> arr) {
+    quickSorting(arr, 0, arr.size() - 1);
+    return arr;
 }
 
 /// 归并排序 非递归
 /// 时间复杂度：O(n*log2n)
 /// 空间复杂度：O(n)
-vector<int> sorting6(vector<int> arr) {
+vector<int> mergeSort1(vector<int> arr) {
     // 现在使用非递归的方法
     // 先设定步长 从2开始 每次排序结束之后 *2
     long count = arr.size();
@@ -192,7 +217,7 @@ vector<int> sorting6(vector<int> arr) {
 }
 
 
-vector<int> merge7(vector<int> left, vector<int> right) {
+vector<int> merge(vector<int> left, vector<int> right) {
     vector<int> res;
     // 两个数组归并为一个数组
     int one = 0;
@@ -218,7 +243,7 @@ vector<int> merge7(vector<int> left, vector<int> right) {
 /// 归并排序 递归
 /// 时间复杂度：O(n*log2n)
 /// 空间复杂度：O(n)
-vector<int> sorting7(vector<int> arr) {
+vector<int> mergeSort(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
     }
@@ -228,13 +253,13 @@ vector<int> sorting7(vector<int> arr) {
     copy(arr.begin(), arr.begin() + mid, back_inserter(left));
     copy(arr.begin() + mid, arr.end(), back_inserter(right));
     
-    return merge7(sorting7(left), sorting7(right));
+    return merge(mergeSort(left), mergeSort(right));
 }
 
 /// 计数排序
 /// 时间复杂度：
 /// 空间复杂度：
-vector<int> sorting8(vector<int> arr) {
+vector<int> countingSort(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
     }
@@ -265,7 +290,7 @@ vector<int> sorting8(vector<int> arr) {
 /// 桶排序
 /// 时间复杂度：
 /// 空间复杂度：
-vector<int> sorting9(vector<int> arr) {
+vector<int> bucketSort(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
     }
@@ -294,11 +319,10 @@ vector<int> sorting9(vector<int> arr) {
     arr.resize(0);
     for (int i = 0; i < bucket.size(); i++) {
         if (bucket[i].size() > 0) {
-            sorting5(bucket[i], 0, bucket[i].size() - 1);
+            quickSort(bucket[i]);
             arr.insert(arr.end(), bucket[i].begin(), bucket[i].end());
         }
     }
-
     return arr;
 }
 
@@ -407,8 +431,9 @@ vector<int> sorting11(vector<int> arr) {
 }
 
 int main(int argc, const char * argv[]) {
-    vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5, 11, 111};
-    vector<int> res = bubbleSort(arr);
+//    vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5, 11, 111};
+    vector<int> arr = {4, 3, 5, 4, 6};
+    vector<int> res = quickSort(arr);
 //    sorting5(arr, 0, arr.size() - 1);
     for_each(res.begin(), res.end(), [](int a) {
         cout << a << " ";
