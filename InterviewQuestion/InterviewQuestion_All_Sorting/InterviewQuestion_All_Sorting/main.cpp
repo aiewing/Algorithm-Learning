@@ -350,8 +350,7 @@ void adjustHeap(vector<int> &arr, int i) {
 
 // 创建大顶堆
 void buildHeap(vector<int> &arr) {
-    // 现在是一个无需的普通的堆
-    // 我们需要从倒数第二层开始遍历
+    // 现在是一个无序的普通的堆
     for (int i = arr.size() / 2 - 1; i >= 0; i--) {
         adjustHeap(arr, i);
     }
@@ -360,7 +359,7 @@ void buildHeap(vector<int> &arr) {
 /// 堆排序
 /// 时间复杂度：
 /// 空间复杂度：
-vector<int> sorting10(vector<int> arr) {
+vector<int> heapSort(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
     }
@@ -374,18 +373,16 @@ vector<int> sorting10(vector<int> arr) {
         arr[0] = temp;
         // 需要实时记录一个len
         len--;
-        
         // 重新排列成为大顶堆 从上到下
         adjustHeap(arr, 0);
     }
-    
     return arr;
 }
 
 /// 基数排序
 /// 时间复杂度：
 /// 空间复杂度：
-vector<int> sorting11(vector<int> arr) {
+vector<int> radixSort(vector<int> arr) {
     if (arr.size() < 2) {
         return arr;
     }
@@ -402,8 +399,6 @@ vector<int> sorting11(vector<int> arr) {
         maxInt = maxInt / 10;
         maxDigit++;
     }
-    
-    
     
     for (int i = 0; i < maxDigit; i++) {
         // 创建一个数组为10的数组
@@ -425,8 +420,6 @@ vector<int> sorting11(vector<int> arr) {
             }
         }
     }
-    
-    cout << "" << endl;
     return arr;
 }
 
