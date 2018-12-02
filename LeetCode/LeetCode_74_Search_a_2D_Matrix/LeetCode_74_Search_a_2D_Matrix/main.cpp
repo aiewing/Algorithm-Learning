@@ -14,16 +14,13 @@ using namespace std;
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        if (matrix.size() == 0) {
+        if (matrix.size() == 0 || matrix[0].size()  == 0) {
             return false;
         }
         // 先判断target在什么范围里面
         vector<int> resArr;
         for (int i = 0; i < matrix.size(); i++) {
             vector<int> arr = matrix[i];
-            if (arr.size() == 0) {
-                break;
-            }
             if (target >= arr.front() && target <= arr.back()) {
                 if (target == arr.front() || target == arr.back()) {
                     return true;
@@ -62,6 +59,60 @@ public:
         return false;
     }
 };
+
+class Solution2 {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.size() == 0 || matrix[0].size()  == 0) {
+            return false;
+        }
+        // 先判断target在什么范围里面
+        vector<int> resArr;
+        for (int i = 0; i < matrix.size(); i++) {
+            vector<int> arr = matrix[i];
+            if (target >= arr.front() && target <= arr.back()) {
+                if (target == arr.front() || target == arr.back()) {
+                    return true;
+                } else {
+                    resArr = arr;
+                    break;
+                }
+            }
+            if (i > 0) {
+                if (arr.back() > target && arr.front() < target) {
+                    return false;
+                }
+            }
+        }
+        
+        for (int i = 0; i < resArr.size(); i++) {
+            if (resArr[i] == target) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+
+class Solution1 {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.size() == 0) {
+            return false;
+        }
+        for (int i = 0; i < matrix.size(); i++) {
+            for (int j = 0; j < matrix[i].size(); j++) {
+                if (matrix[i][j] == target) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
 
 int main(int argc, const char * argv[]) {
     Solution * aa = new Solution();
