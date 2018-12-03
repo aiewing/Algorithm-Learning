@@ -139,22 +139,50 @@ void quickSorting(vector<int> &arr, int low, int high) {
     // 默认关键值为数组的最左边的点
     int key = arr[left];
     while (left < right) {
-        while (left < right && arr[right] >= key) {
-            right--;
-        }
-        arr[left] = arr[right];
+        
         while (left < right && arr[left] <= key) {
             left++;
         }
         arr[right] = arr[left];
+        while (left < right && arr[right] >= key) {
+            right--;
+        }
+        arr[left] = arr[right];
     }
     arr[left] = key;
     quickSorting(arr, low, left - 1);
     quickSorting(arr, left + 1, high);
 }
 
+void quickSorting2(vector<int> &arr, int low, int high) {
+    if (low >= high) {
+        return;
+    }
+    // 先保存左右点
+    int left = low;
+    int right = high;
+    int temp;
+    // 默认关键值为数组的最左边的点
+    int key = arr[left];
+    while (left < right) {
+        while (left < right && arr[right] >= key) {
+            right--;
+        }
+        while (left < right && arr[left] <= key) {
+            left++;
+        }
+        temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+    }
+    arr[low] = arr[left];
+    arr[left] = temp;
+    quickSorting(arr, low, left - 1);
+    quickSorting(arr, left + 1, high);
+}
+
 vector<int> quickSort(vector<int> arr) {
-    quickSorting(arr, 0, arr.size() - 1);
+    quickSorting2(arr, 0, arr.size() - 1);
     return arr;
 }
 
@@ -424,8 +452,8 @@ vector<int> radixSort(vector<int> arr) {
 }
 
 int main(int argc, const char * argv[]) {
-//    vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5, 11, 111};
-    vector<int> arr = {4, 3, 5, 4, 6};
+    vector<int> arr = {6, 4, 7, 3, 2, 8, 9, 1, 5, 11, 111};
+//    vector<int> arr = {4, 3, 5, 4, 6};
     vector<int> res = quickSort(arr);
 //    sorting5(arr, 0, arr.size() - 1);
     for_each(res.begin(), res.end(), [](int a) {
