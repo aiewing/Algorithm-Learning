@@ -19,22 +19,27 @@ struct ListNode {
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        // 先定义两串链表
+        // 左边链表头
         ListNode *leftHeadNode = new ListNode(0);
+        // 右边链表头
         ListNode *rightHeadNode = new ListNode(0);
+        // 左边链表的当前位置
         ListNode *leftCurrentNode = leftHeadNode;
+        // 右边链表的当前位置
         ListNode *rightCurrentNode = rightHeadNode;
         while (head != NULL) {
-            // 判断当前的值
             if (head->val < x) {
+                // 把小于x的节点放到左链表最后 并移动当前节点到下个节点
                 leftCurrentNode->next = head;
                 leftCurrentNode = leftCurrentNode->next;
             } else {
+                // 把大于等于x的节点放到右链表最后 并移动当前节点到下个节点
                 rightCurrentNode->next = head;
                 rightCurrentNode = rightCurrentNode->next;
             }
             head = head->next;
         }
+        // 拼接两个列表
         leftCurrentNode->next = rightHeadNode->next;
         rightCurrentNode->next = NULL;
         return leftHeadNode->next;
@@ -44,23 +49,32 @@ public:
 class Solution1 {
 public:
     ListNode* partition(ListNode* head, int x) {
+        // 左边链表头
         ListNode *leftHeadNode = new ListNode(0);
-        ListNode *rightHeadNode = new ListNode(0);
+        // 原节点的父节点
+        ListNode *fatherHeadNode = new ListNode(0);
+        // 为了让第一个节点拥有父节点 删除节点的时候容易一点 所以为原链表设置一个父节点
+        fatherHeadNode->next = head;
+        // 左边链表的当前位置
         ListNode *leftCurrentNode = leftHeadNode;
-        ListNode *rightCurrentNode = head;
-        while (rightCurrentNode != NULL) {
+        // 原链表的当前位置
+        ListNode *headCurrentNode = fatherHeadNode;
+        while (headCurrentNode->next != NULL) {
             // 判断当前的值
-            if (rightCurrentNode->val < x) {
-                leftCurrentNode->next = rightCurrentNode;
+            if (headCurrentNode->next->val < x) {
+                // 把小于x的节点放到左链表最后 并移动当前节点到下个节点
+                leftCurrentNode->next = headCurrentNode->next;
                 leftCurrentNode = leftCurrentNode->next;
-                rightCurrentNode = rightCurrentNode->next;
+                // 删除当前的节点
+                headCurrentNode->next = headCurrentNode->next->next;
                 leftCurrentNode->next = NULL;
             } else {
-                rightCurrentNode = rightCurrentNode->next;
+                // 当前节点不变 移动当前节点到下个节点
+                headCurrentNode = headCurrentNode->next;
             }
-            
         }
-        leftCurrentNode->next = rightHeadNode->next;
+        // 拼接两个列表
+        leftCurrentNode->next = fatherHeadNode->next;
         return leftHeadNode->next;
     }
 };
