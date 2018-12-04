@@ -79,6 +79,35 @@ public:
     }
 };
 
+class Solution2 {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        // 当遇到第一个小于x的就设置成左半部分的头
+        // 当遇到第一个大于等于x的就设置成右半部分的头
+        // 左边链表头
+        ListNode *leftHeadNode = new ListNode(0);
+        // 右边链表头
+        ListNode *rightHeadNode = new ListNode(0);
+        rightHeadNode->next = head;
+        // 左边链表的当前位置
+        ListNode *leftCurrentNode = leftHeadNode;
+        // 右边链表的当前位置
+        ListNode *rightCurrentNode = rightHeadNode;
+        while (rightCurrentNode->next != NULL) {
+            if (rightCurrentNode->next->val < x) {
+                // 移除这个点 并重新拼接原来的节点
+                leftCurrentNode->next = rightCurrentNode->next;
+                leftCurrentNode = leftCurrentNode->next;
+                rightCurrentNode->next = rightCurrentNode->next->next;
+            } else {
+                rightCurrentNode = rightCurrentNode->next;
+            }
+        }
+        leftCurrentNode->next = rightHeadNode->next;
+        return leftHeadNode->next;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     
     ListNode *node1 = new ListNode(1);
@@ -92,7 +121,7 @@ int main(int argc, const char * argv[]) {
     node3->next = node4;
     node4->next = node5;
     node5->next = node6;
-    Solution1 *a = new Solution1();
+    Solution2 *a = new Solution2();
     ListNode * res = a->partition(node1, 3);
     
     cout << "" ;
