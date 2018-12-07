@@ -31,6 +31,20 @@ public:
     }
 };
 
+class Solution1 {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode *mid = head;
+        while (head != NULL && head->next != NULL) {
+            mid = mid->next;
+            head = head->next->next;
+        }
+
+        cout << "" << endl;
+        return mid;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     ListNode *node1 = new ListNode(1);
     ListNode *node2 = new ListNode(2);
@@ -44,7 +58,7 @@ int main(int argc, const char * argv[]) {
     node4->next = node5;
     node5->next = node6;
     
-    Solution *aa = new Solution();
+    Solution1 *aa = new Solution1();
     ListNode * a = aa->middleNode(node1);
     cout << "" << endl;
     return 0;

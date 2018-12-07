@@ -67,7 +67,6 @@ public:
         }
         
         int maxGap = 0;
-        sort(nums.begin(), nums.end());
         for (int i = 0; i < nums.size() - 1; i++) {
             maxGap = max(nums[i + 1] - nums[i], maxGap);
         }
@@ -118,15 +117,60 @@ public:
     }
 };
 
+// 基数排序
+class Solution4 {
+public:
+    int maximumGap(vector<int>& nums) {
+        if (nums.size() < 2) {
+            return 0;
+        }
+        // 先找出最大
+        int maxNum = nums.front();
+        for (int i = 0; i < nums.size(); i++) {
+            maxNum = max(maxNum, nums[i]);
+        }
+        
+        // 计算位数
+        int bit = 0;
+        while (1) {
+            if (maxNum >= pow(10, bit)) {
+                bit++;
+            } else {
+                break;
+            }
+        }
+        
+        for (int i = 0; i < bit; i++) {
+            vector<vector<int>> bucket(10);
+            // 从最低位开始排序
+            for (auto subNum : nums) {
+                int bitNum = int(subNum / pow(10, i)) % 10;
+                bucket[bitNum].push_back(subNum);
+            }
+            // 重新放入桶中
+            nums.resize(0);
+            for (auto ve : bucket) {
+                nums.insert(nums.end(), ve.begin(), ve.end());
+            }
+        }
+
+        int maxGap = 0;
+        for (int i = 0; i < nums.size() - 1; i++) {
+            maxGap = max(nums[i + 1] - nums[i], maxGap);
+        }
+        return maxGap;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     
-    vector<int> a;
-    for (int i = 0; i < 10000; i++) {
-        int q = random() % 100000;
-        a.push_back(q);
-    }
-//    vector<int> a = { 21, 35, 49, 77, 83,1, 35, 49, 99, 86};
-    Solution3 * aa = new Solution3();
+//    vector<int> a;
+//    for (int i = 0; i < 100; i++) {
+//        int q = random() % 1000;
+//        a.push_back(q);
+//    }
+    vector<int> a = { 100,3,2,1};
+    Solution4 * aa = new Solution4();
     int res = aa->maximumGap(a);
     
     cout << res << endl;

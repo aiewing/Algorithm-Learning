@@ -64,6 +64,31 @@ public:
     }
 };
 
+// 双链表法
+class Solution2 {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // 创建一个队列
+        ListNode *res = head;
+        ListNode *mid = head;
+        int index = 0;
+        while (head != NULL) {
+            head = head->next;
+            if (index >= n + 1) {
+                mid = mid->next;
+            } else {
+                index++;
+            }
+        }
+        if (mid == res && index == n) {
+            return res->next;
+        } else {
+            mid->next = mid->next->next;
+            return res;
+        }
+    }
+};
+
 int main(int argc, const char * argv[]) {
     ListNode *node1 = new ListNode(1);
     ListNode *node2 = new ListNode(2);
@@ -75,8 +100,8 @@ int main(int argc, const char * argv[]) {
     node3->next = node4;
     node4->next = node5;
     
-    Solution1 *aa = new Solution1();
-    ListNode * a = aa->removeNthFromEnd(node1, 2);
+    Solution2 *aa = new Solution2();
+    ListNode * a = aa->removeNthFromEnd(node1, 4);
     cout << "" << endl;
     return 0;
 }

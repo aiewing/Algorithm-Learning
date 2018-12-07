@@ -36,6 +36,26 @@ public:
 };
 
 
+// 双指针法
+class Solution1 {
+public:
+    bool hasCycle(ListNode *head) {
+        if (head == NULL || head->next == NULL) {
+            return false;
+        }
+        ListNode *aieNode = head->next;
+        while (aieNode != NULL && aieNode->next != NULL) {
+            if (aieNode == head) {
+                return true;
+            }
+            aieNode = aieNode->next->next;
+            head = head->next;
+        }
+        return false;
+    }
+};
+
+
 int main(int argc, const char * argv[]) {
     ListNode *node1 = new ListNode(1);
     ListNode *node2 = new ListNode(2);
