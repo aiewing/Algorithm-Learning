@@ -61,6 +61,92 @@ public:
     }
 };
 
+
+/*
+ 一次遍历解决
+ 1.新建一个新的列表使用存储反转的分支
+ */
+class Solution1 {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (head == NULL || head->next == NULL || m == n) {
+            return head;
+        }
+        ListNode *left = NULL;
+        ListNode *reverseListHead;
+        ListNode *reverseListFoot;
+        ListNode *temp;
+        ListNode *midTemp;
+        ListNode *cHead = head;
+        int index = 1;
+        while (cHead != NULL) {
+            if (index == m - 1) {
+                left = cHead;
+            } else if (index == m) {
+                // 如果是等于m 说明这个点是反转之后的最后一个点
+                reverseListFoot = new ListNode(cHead->val);
+                reverseListHead = reverseListFoot;
+            } else if (index > m && index <= n) {
+                temp = new ListNode(cHead->val);
+                midTemp = reverseListHead;
+                reverseListHead = temp;
+                temp->next = midTemp;
+            }
+            cHead = cHead->next;
+            if (index == n) {
+                break;
+            }
+            index++;
+        }
+        reverseListFoot->next = cHead;
+        if (left == NULL) {
+            return reverseListHead;
+        } else {
+            left->next = reverseListHead;
+            return head;
+        }
+    }
+};
+
+
+class Solution2 {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if(head == NULL || head->next == NULL) {
+            return head;
+        }
+        ListNode *newhead = new ListNode(0);
+        newhead->next = head;
+        head = newhead;
+        ListNode *p2 = head->next;
+        ListNode *p1 = head;
+        ListNode *q1;
+        ListNode *q2 = head;
+        int length = 0;
+        while(q2) {
+            if(++length < m) {
+                p1 = p2;
+                p2 = p2->next;
+            }
+            if(length == m) {
+                q1 = p2;
+            }
+            if(length >=m && length < n) {
+                q2 = q1->next;
+                
+                q1->next = q2->next;
+                p1->next = q2;
+                q2->next = p2;
+                
+                p2 = p1->next;
+            }
+            if(length >= n)
+                break;
+        }
+        return head->next;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     ListNode *node1 = new ListNode(1);
     ListNode *node2 = new ListNode(2);
@@ -72,9 +158,10 @@ int main(int argc, const char * argv[]) {
     node2->next = node3;
     node3->next = node4;
     node4->next = node5;
+
     
-    Solution * aa = new Solution();
-    ListNode * res = aa->reverseBetween(node1, 2, 4);
+    Solution2 * aa = new Solution2();
+    ListNode * res = aa->reverseBetween(node1, 2, 5);
     cout << "" << endl;
     return 0;
 }
