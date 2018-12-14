@@ -108,6 +108,67 @@ public:
     }
 };
 
+/*
+ 可以分成两条线
+ 0 1 2 3 4 5       2   4
+ 
+ 0 1
+ 2 3 4 5
+ 
+ 0 1 2
+ 3 4 5
+ 
+ 0 1 3 2
+ 4 5
+ 
+ 0 1 4 3 2
+ 5
+ 
+ 0 1 4 3 2 5
+ 
+ */
+class Solution3 {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (head == NULL || head->next == NULL || m == n) {
+            return head;
+        }
+        ListNode *temp;
+        ListNode *cHead = new ListNode(0);
+        cHead->next = head;
+        int index = 1;
+        ListNode *headRight = head;
+        ListNode *headMid = cHead;
+        
+        while (head != NULL) {
+            if (index == m - 1) {
+                headMid = head;
+                headRight = head;
+                head = head->next;
+            } else if (index == m) {
+                // 先把当前的点存下来
+                temp = head;
+                head = head->next;
+                headMid->next = temp;
+                headRight = headMid->next;
+            } else if (index > m && index <= n) {
+                // 先把当前的点存下来
+                temp = head;
+                head = head->next;
+                temp->next = headMid->next;
+                headMid->next = temp;
+            } else {
+                head = head->next;
+            }
+            if (index == n) {
+                break;
+            }
+            index++;
+        }
+        headRight->next = head;
+        return cHead->next;
+    }
+};
 
 class Solution2 {
 public:
@@ -160,8 +221,8 @@ int main(int argc, const char * argv[]) {
     node4->next = node5;
 
     
-    Solution2 * aa = new Solution2();
-    ListNode * res = aa->reverseBetween(node1, 2, 5);
+    Solution3 * aa = new Solution3();
+    ListNode * res = aa->reverseBetween(node1, 3, 4);
     cout << "" << endl;
     return 0;
 }
