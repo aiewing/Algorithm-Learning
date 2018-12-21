@@ -38,6 +38,8 @@ public:
     }
 };
 
+
+// 递归法
 class Solution1 {
 public:
     ListNode* reverseList(ListNode* head) {
@@ -53,6 +55,25 @@ public:
     }
 };
 
+// 链表逆转法
+class Solution2 {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return head;
+        }
+        ListNode *newHead = head;
+        ListNode *temp = NULL;
+        while (head != NULL) {
+            temp = head->next;
+            head->next = newHead;
+            newHead = head;
+            head = temp;
+        }
+        return newHead;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     ListNode *node1 = new ListNode(1);
     ListNode *node2 = new ListNode(2);
@@ -64,7 +85,7 @@ int main(int argc, const char * argv[]) {
     node3->next = node4;
     node4->next = node5;
     
-    Solution1 *aa = new Solution1();
+    Solution2 *aa = new Solution2();
     ListNode * a = aa->reverseList(node1);
     cout << "" << endl;
     return 0;
