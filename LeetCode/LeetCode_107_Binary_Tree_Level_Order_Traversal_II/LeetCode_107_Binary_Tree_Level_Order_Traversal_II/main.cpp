@@ -48,6 +48,38 @@ public:
     }
 };
 
+/*
+ 一层层遍历
+ */
+class Solution1 {
+public:
+    vector<vector<int>> res;
+    vector<TreeNode *> arr;
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        if (root == NULL) {
+            return res;
+        }
+        arr.push_back(root);
+        while (!arr.empty()) {
+            vector<TreeNode *> temp;
+            vector<int> valArr;
+            for (auto node : arr) {
+                valArr.push_back(node->val);
+                if (node->left != NULL) {
+                    temp.push_back(node->left);
+                }
+                if (node->right != NULL) {
+                    temp.push_back(node->right);
+                }
+            }
+            res.push_back(valArr);
+            arr = temp;
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
+
 int main(int argc, const char * argv[]) {
     TreeNode *node1 = new TreeNode(3);
     TreeNode *node2 = new TreeNode(9);
@@ -58,7 +90,7 @@ int main(int argc, const char * argv[]) {
     node1->right = node3;
     node3->left = node4;
     node3->right = node5;
-    Solution *aa = new Solution();
+    Solution1 *aa = new Solution1();
     vector<vector<int>> res = aa->levelOrderBottom(node1);
     
     return 0;
