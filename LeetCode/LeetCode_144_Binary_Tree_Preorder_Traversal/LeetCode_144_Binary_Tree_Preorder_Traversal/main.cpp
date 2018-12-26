@@ -48,21 +48,46 @@ class Solution1 {
 public:
     vector<int> res;
     vector<int> preorderTraversal(TreeNode* root) {
-        aiewing(root);
+        stack<TreeNode *> sta;
+        while (root != NULL || !sta.empty()) {
+            while (root != NULL) {
+                res.push_back(root->val);
+                sta.push(root);
+                root = root->left;
+            }
+            if (!sta.empty()) {
+                root = sta.top();
+                sta.pop();
+                root = root->right;
+            }
+        }
         return res;
     }
-    
-    void aiewing(TreeNode *root) {
+};
+
+// 非递归 模拟出栈入栈
+class Solution2 {
+public:
+    vector<int> res;
+    vector<int> preorderTraversal(TreeNode* root) {
         if (root == NULL) {
-            return;
+            return res;
         }
-        res.push_back(root->val);
-        if (root->left != NULL) {
-            aiewing(root->left);
+        stack<TreeNode *> sta;
+        sta.push(root);
+        while (!sta.empty()) {
+            res.push_back(root->val);
+            if (root->right) {
+                sta.push(root->right);
+            }
+            if (root->left) {
+                root = root->left;
+            } else {
+                root = sta.top();
+                sta.pop();
+            }
         }
-        if (root->right != NULL) {
-            aiewing(root->right);
-        }
+        return res;
     }
 };
 
