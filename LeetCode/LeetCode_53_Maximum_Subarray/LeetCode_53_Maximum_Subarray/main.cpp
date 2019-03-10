@@ -33,7 +33,7 @@ dp[i] = arr[i] + max(dp[i - 1], 0)
  时间复杂度：O(n)
  空间复杂度：O(n)
  */
-class Solution {
+class Solution1 {
 public:
     int maxSubArray(vector<int>& nums) {
         long count = nums.size();
@@ -49,9 +49,48 @@ public:
     }
 };
 
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        return divide(nums, 0, nums.size() - 1);
+    }
+    
+    int divide(vector<int>& nums, int low, int high) {
+        if (low == high) {
+            return nums[low];
+        }
+        if (low == high - 1) {
+            return max(nums[low] + nums[high], max(nums[low], nums[high]));
+        }
+        int mid = (low + high) / 2;
+        int leftMax = divide(nums, low, mid - 1);
+        int rightMax = divide(nums, mid + 1, high);
+        int midMax = nums[mid];
+        int temp = midMax;
+        
+        for (int i = mid - 1; i >= low; i--) {
+            temp += nums[i];
+            if (temp > midMax) {
+                midMax = temp;
+            }
+        }
+        temp = midMax;
+        
+        for (int i = mid + 1; i <= high; i++) {
+            temp += nums[i];
+            if (temp > midMax) {
+                midMax = temp;
+            }
+        }
+        return max(midMax, max(leftMax, rightMax));
+    }
+};
+
 int main(int argc, const char * argv[]) {
     Solution *so = new Solution();
     vector<int> aa = {-2,1,-3,4,-1,2,1,-5,4};
     int res = so->maxSubArray(aa);
+    
+    printf("");
     return 0;
 }
