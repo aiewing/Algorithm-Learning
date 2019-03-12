@@ -14,7 +14,42 @@ using namespace std;
 
 
 /*
- dp[i] = dp[i - 1] + (和s[i]有关的字符串都遍历一次的回文字符串的总和)
+ 暴力求解
+ 遍历每一个数字串，以这个字符串为中心，判断是否回文字符串
+ */
+class Solution1 {
+public:
+    int countSubstrings(string s) {
+        int count = s.size();
+        if (count == 0) {
+            return 0;
+        } else if (count == 1) {
+            return 1;
+        }
+        int res = 0;
+        for (int i = 0; i < count - 1; i++) {
+            int a = calculateCount(s, i, i, count - 1);
+            int b = calculateCount(s, i, i + 1, count - 1);
+            res += (a + b);
+        }
+        return ++res;
+    }
+    
+    int calculateCount(string s, int left, int right, int max) {
+        int res = 0;
+        while (left >= 0 && right <= max) {
+            if (s[left--] == s[right++]) {
+                res++;
+            } else {
+                break;
+            }
+        }
+        return res;
+    }
+};
+
+/*
+ 动态规划
  */
 class Solution {
 public:
@@ -35,9 +70,6 @@ public:
     }
 };
 
-/*
- 昨天说的dp是，dp[i][j] = dp[i][j - 1] + dp[i + 1][j] - dp[i + 1][j - 1],这个意思是从中间向两边扩展，我在想，那我直接i置0，那就可以直接从左往右了么？dp[0][j] = dp[0][j - 1] + dp[1][j] - dp[1][j - 1]
- */
 
 int main(int argc, const char * argv[]) {
     
