@@ -11,40 +11,28 @@
 
 using namespace std;
 
+/*
+ dp解
+ dp[i] = max(dp[i], dp[j] * (i - j))
+ */
 class Solution {
 public:
     vector<int> res;
     int integerBreak(int n) {
-        if (n == 2) {
-            return 1;
-        } else if (n == 3) {
-            return 2;
-        }
-        int a = 1;
-        aie(n);
-        for (int i = 0; i < res.size(); i++) {
-            a *= res[i];
-        }
-        return a;
-    }
-    
-    void aie(int n) {
-        if (n > 4) {
-            if (n % 2 == 0) {
-                aie(n / 2);
-                aie(n / 2);
-            } else {
-                aie(n / 2);
-                aie(n / 2 + 1);
+        vector<int> dp(n + 1, 1);
+        for (int i = 3; i <= n; i++) {
+            for (int j = 1; j < i; j++) {
+                dp[i] = max(j * (i - j), max(dp[i], dp[j] * (i - j)));
             }
-        } else {
-            res.push_back(n);
         }
+        std::cout << "Hello, World!\n";
+        return dp[n];
     }
 };
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
+    Solution *aa = new Solution();
+    int a = aa->integerBreak(10);
     std::cout << "Hello, World!\n";
     return 0;
 }
