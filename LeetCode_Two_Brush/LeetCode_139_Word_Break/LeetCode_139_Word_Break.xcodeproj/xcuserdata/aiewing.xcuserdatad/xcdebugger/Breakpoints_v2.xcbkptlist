@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LeetCode_139_Word_Break/main.cpp"
-            timestampString = "574758897.511928"
+            timestampString = "574759978.3280981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "wordBreak(string s, vector&lt;string&gt;&amp; wordDict)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -18,11 +18,19 @@ public:
         int n = s.size();
         vector<bool> dp(n + 1, false);
         dp[0] = true;
+        // 保存上一个DP为true的位置
+        int index = 0;
+        // 计算字符串最大长度
+        int strMax = 0;
+        for (int i = 0; i < wordDict.size(); i++) {
+            strMax = max(strMax, (int)wordDict[i].length());
+        }
         for (int i = 1; i <= n; i++) {
-            for (int j = i - 1; j >= 0; j--) {
+            for (int j = index; j >= (i - strMax) && j >= 0; j--) {
                 string subStr = s.substr(j, i - j);
                 if (aiewing(subStr, wordDict) && dp[j]) {
                     dp[i] = true;
+                    index = i;
                     break;
                 }
             }
